@@ -4,12 +4,74 @@
 
 ## Table of Contents
 
-1. [Module 3: Connecting JDBC to the Relational Database](#module-3-connecting-jdbc-to-the-relational-database)
+1. [Comments on these Notes](#comments-on-these-notes)  
+   1.1 [Database Assumptions](#database-assumptions)  
+   1.2 [Java Assumptions](#java-assumptions)
 
 
-2. [Module 4: Using JDBC to Query Databases](#module-4-using-jdbc-to-query-databases)
+2. [Module 3: Connecting JDBC to the Relational Database](#module-3-connecting-jdbc-to-the-relational-database)
 
-- 2.1 [Using Statement and ResultSet](#using-statement-and-resultset)
+
+3. [Module 4: Using JDBC to Query Databases](#module-4-using-jdbc-to-query-databases)  
+    3.1 [Using Statement and ResultSet](#using-statement-and-resultset)  
+    3.2 [Handling Exceptions in JDBC](#handling-exceptions-in-jdbc)
+
+## Comments on These Notes
+
+- The course material is quite vast, and don't contain any comments from the lecturer. In order to make these notes
+  easier to understand, I often write my own examples which will then vary from what is found in this project's source
+  code.
+- To make the note examples as short as possible, a few assumptions about the Database and the Java-program we are
+  supossed to be working with is provided below.
+
+### Database Assumptions
+
+- Assume that we have a database with the following tables:
+
+ ````SQL
+CREATE TABLE People
+(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    firstname VARCHAR(30) NOT NULL,
+    lastname  VARCHAR(30) NOT NULL
+);
+ ````
+
+### Java Assumptions
+
+- Assume that we have Java Application with the following classes:
+
+````Java
+
+@Data
+@AllArgsConstructor
+public class Person {
+    private String firstname;
+    private String lastname;
+}
+````
+
+````Java
+public class Constants {
+    public static final String DB_URI = "jdbc:mysql://localhost:3306/lotsofdata?user=suchlogin&password=muchsecret";
+}
+````
+
+````Java
+public class ExceptionHandler {
+    public static void handleException(Exception exception) {
+        if (exception instanceof SQLException) {
+            SQLException sqlException = (SQLException) exception;
+            System.out.println("Error Code: " + sqlException.getErrorCode());
+            System.out.println("SQL State: " + sqlException.getSQLState());
+        }
+
+        System.out.println("SQLException message: " + exception.getMessage());
+        System.out.print("Stacktrace: ");
+        exception.printStackTrace();
+    }
+}
+````
 
 ## Module 3: Connecting JDBC to the Relational Database
 
@@ -48,7 +110,7 @@ public class DatabaseConnector {
     public boolean tryConnection() throws Exception {
 
         Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/lotsofdata?user=suchlogin&password=muchsecret");
+                "jdbc:mysql://localhost:3306/lotsofdata?user=suchlogin&password=muchsecret"); //In future examples the DB_URI constant will be used instrad
 
         boolean isValid = connection.isValid(2);
         connection.close();
@@ -56,9 +118,6 @@ public class DatabaseConnector {
     }
 }
 ````
-
-- In all future examples we are going to assume that our program contains a String constant named ***DB_URI*** which is
-  equal to the URI in the above example.
 
 ## Module 4: Using JDBC to Query Databases
 
@@ -74,11 +133,6 @@ public class DatabaseConnector {
   having to write more code.
 
 ````Java
-/* 
-For this example we assume that we have a database table named people, with columns named "firstname" and "lastname".
-We also have a POJO named Person with identical String attributes and relevant constructors.
- */
-
 public class PeopleRepository {
 
     public List<Person> getAllPeople() throws Exception {
@@ -106,8 +160,8 @@ public class PeopleRepository {
 - Exceptions occurring while querying a database is quite frequent.
 - All exceptions thrown by JDBC extend SQLException.
 - Perform all operations related to connecting to or querying a database inside a try-catch block in case of exceptions.
-    - Note the usage of ***try-with-resources***-syntax, which automatically closes all resources when the try-catch block is
-      done executing, which makes a finally block where we close the resources manually redundant.
+    - Note the usage of ***try-with-resources***-syntax, which automatically closes all resources when the try-catch
+      block is done executing, which makes a finally block where we close the resources manually redundant.
     - To keep the component as clean as possible, handle exceptions where the method is called, and not in the component
       itself.
 
@@ -140,25 +194,10 @@ public class PeopleRepository {
     }
 }
 
-public class ExceptionHandler {
-
-    public static void handleException(Exception exception) {
-        if (exception instanceof SQLException) {
-            SQLException sqlException = (SQLException) exception;
-            System.out.println("Error Code: " + sqlException.getErrorCode());
-            System.out.println("SQL State: " + sqlException.getSQLState());
-        }
-
-        System.out.println("SQLException message: " + exception.getMessage());
-        System.out.print("Stacktrace: ");
-        exception.printStackTrace();
-    }
-}
-
 public class Main {
 
     public static void main(String[] args) {
-        
+
         try {
             PeopleRepository repository = new PeopleRepository();
             repository.getAllPeople();
