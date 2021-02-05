@@ -4,11 +4,12 @@
 
 ## Table of Contents
 
-1. [Module 3: Connecting JDBC to the Relational Database](#module-3-connecting-jdbc-to-the-relational-database)  
+1. [Module 3: Connecting JDBC to the Relational Database](#module-3-connecting-jdbc-to-the-relational-database)
 
 
 2. [Module 4: Using JDBC to Query Databases](#module-4-using-jdbc-to-query-databases)
- - 2.1 [Using Statement and ResultSet](#using-statement-and-resultset)
+
+- 2.1 [Using Statement and ResultSet](#using-statement-and-resultset)
 
 ## Module 3: Connecting JDBC to the Relational Database
 
@@ -47,7 +48,7 @@ public class DatabaseConnector {
     public boolean tryConnection() throws Exception {
 
         Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/lotsofdata?user=suchlogin&password=muchsecret");			
+                "jdbc:mysql://localhost:3306/lotsofdata?user=suchlogin&password=muchsecret");
 
         boolean isValid = connection.isValid(2);
         connection.close();
@@ -56,7 +57,8 @@ public class DatabaseConnector {
 }
 ````
 
- - In all future examples we are going to assume that our program contains a String constant named ***DB_URI*** which is equal to the URI in the above example.
+- In all future examples we are going to assume that our program contains a String constant named ***DB_URI*** which is
+  equal to the URI in the above example.
 
 ## Module 4: Using JDBC to Query Databases
 
@@ -78,23 +80,91 @@ We also have a POJO named Person with identical String attributes and relevant c
  */
 
 public class PeopleRepository {
-    
-   public List<Person> getAllPeople() throws Exception {
-      List<Person> people = new ArrayList<>();
-      Connection connection = DriverManager.getConnection(DB_URI);
-      Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM people");
 
-      while (resultSet.next()) {
-         String firstname = resultSet.getString("firstname");
-         String lastname = resultSet.getString("lastname");
-         people.add(new Person(firstname, lastname));
-      }
+    public List<Person> getAllPeople() throws Exception {
+        List<Person> people = new ArrayList<>();
+        Connection connection = DriverManager.getConnection(DB_URI);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM people;");
 
-      resultSet.close();
-      statement.close();
-      connection.close();
-      return people;
-   }
+        while (resultSet.next()) {
+            String firstname = resultSet.getString("firstname");
+            String lastname = resultSet.getString("lastname");
+            people.add(new Person(firstname, lastname));
+        }
+
+        resultSet.close();
+        statement.close();
+        connection.close();
+        return people;
+    }
 }
 ````
+
+### Handling Exceptions in JDBC
+
+- Exceptions occurring while querying a database is quite frequent.
+- All exceptions thrown by JDBC extend SQLException.
+- Perform all operations related to connecting to or querying a database inside a try-catch block in case of exceptions.
+    - Note the usage of ***try-with-resources***-syntax, which automatically closes all resources when the try-catch block is
+      done executing, which makes a finally block where we close the resources manually redundant.
+    - To keep the component as clean as possible, handle exceptions where the method is called, and not in the component
+      itself.
+
+
+- Note that Error Codes are database vendor specific codes, while the SQL State is an industry standard, the meaning of
+  them all are found easily by googling.
+
+`````Java
+public class PeopleRepository {
+
+    public void getAllPeople() throws Exception {
+        List<Person> people = new ArrayList<>();
+
+        try (
+                Connection connection = DriverManager.getConnection(DB_URI);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM products;");
+        ) {
+
+            statement.executeQuery("SELECT * FROM people");
+
+            while (resultSet.next()) {
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                people.add(new Person(firstname, lastname));
+            }
+        }
+
+        return people;
+    }
+}
+
+public class ExceptionHandler {
+
+    public static void handleException(Exception exception) {
+        if (exception instanceof SQLException) {
+            SQLException sqlException = (SQLException) exception;
+            System.out.println("Error Code: " + sqlException.getErrorCode());
+            System.out.println("SQL State: " + sqlException.getSQLState());
+        }
+
+        System.out.println("SQLException message: " + exception.getMessage());
+        System.out.print("Stacktrace: ");
+        exception.printStackTrace();
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        
+        try {
+            PeopleRepository repository = new PeopleRepository();
+            repository.getAllPeople();
+        } catch (Exception exception) {
+            ExceptionHandler.handleException(exception);
+        }
+    }
+}
+`````
