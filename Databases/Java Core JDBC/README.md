@@ -207,3 +207,13 @@ public class Main {
     }
 }
 `````
+
+### Using PreparedStatement
+
+ - When sending a SQL Query to a database, the query is stored parsed and optimized as a query plan by the database. This is done every time a query is received by the database.
+ - Using a PreparedStatement sends the statement together with an identifier, which means the database system won't have to Parse and Optimize the Query each time it is sent, as it will store the optimized query plan and be able to recognize it from the identifier.
+ - This is an optimization which won't have much effect on queries being executed a few times a day, but queries with more rapid usage will benefit greatly in terms of computing time spent by the database.
+ - A good practice is thus to use Prepared Statements by default in all cases, as there is rarely any good reason use a Statement compared to a PreparedStatement.
+ - Using a prepared statement changes nothing code-wise, except that you create a PreparedStatement-object rather than a Statement-object.
+
+
