@@ -1,12 +1,8 @@
-# [The Complete Java Certification Course](https://www.udemy.com/course/master-practical-java-development/)
+# Java Certification Preparation
 
-Completing this course a refresher on Java basics and to properly learn some of the more complex topics.
-I will not be writing notes and code from the very basics, that is just redundant. 
+This project is for code and notes taken while preparing for the Java Certification exam.
 
-The course itself is very focused on being for Java beginners, and does not provide very technical explanations.
-Additional sources will be utilized to better explain some concepts.
-
-## Lecture 12: Java Stack + Heap with Reference Variables
+## Java Stack and Heap with Reference Variables
 
 There are two memory locations which becomes reserved for the Java application to run successfully, the stack and
 the heap.
