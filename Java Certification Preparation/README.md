@@ -2,6 +2,8 @@
 
 This project is for code and notes taken while preparing for the Java Certification exam.
 
+# Java Memory Management
+
 ## Java Stack and Heap with Reference Variables
 
 There are two memory locations which becomes reserved for the Java application to run successfully, the stack and
