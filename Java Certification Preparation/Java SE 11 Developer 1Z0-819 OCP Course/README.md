@@ -2,7 +2,12 @@
 
 Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tietoevry.udemy.com/course/java-se-11-developer-1z0-819-ocp-course-part-1/learn/lecture/23038174#overview)
 
-## Packages and Imports
+[1 Packages and Imports](#1-packages-and-imports)  
+[2 Data Types and Strings](#2-data-types-and-strings)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Declaring Primitive Types](#declaring-primitive-types)
+
+
+## 1 Packages and Imports
 
 Referencing a type from another package
 
@@ -17,7 +22,7 @@ Referencing a type from another package
 If trying to import to classes of the same name, the most specific import will take presidence. 
 In the case where both import are equally specific, there will be a compile error due to imports being ambiguous. 
 
-## Data Types and Strings
+## 2 Data Types and Strings
 
 Java supports two types of data, reference data types and primitive data types.
 
@@ -44,4 +49,20 @@ after the decimal point is critical.
 |float | 32 | approx 3.4028235E38 | Float |
 |double | 64 | approx 1.7976931348623157E308 | Double |
 |boolean | 1 | true, false | Boolean |
+
+### Declaring Primitive Types
+
+Data can be assigned to data variables in the form of literals.
+The exam explores some implications of setting literal data to typed variables where there is a type mismatch.
+
+Valid literals are numeric values in base ten, hexadecimal or octal forms.
+
+An unmodified integer value is assumed to be 32-bit int primitive.
+
+A value containing a decimal point is assumed to be a 64-bit double.
+
+In Java, single character value in single quotes is considered a valid char literal, but any characters surrounded by double
+quotes is considered to be a string literal.
+
+
 
