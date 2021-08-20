@@ -13,3 +13,6 @@ Referencing a type from another package
 |A type-import-on-demand declaration | import java.util.* </br> ... </br> ArrayList list = new ArrayList(); | Discouraged but still needed to be recognized as valid for the exam. If you use this for all your import statements, anyone reading the code may not know where the class referenced actually resides |
 |A single-static-import declaration | import static java.lang.Math.PI; | This is a way to pull in a single static member of a class in and reference the member's name without including a reference to the declared type |
 |A static-import-on-demand declaration | import static java.lang.Math.*; | This is a way to pull in ALL static members of a class without referencing the declared type |
+
+If trying to import to classes of the same name, the most specific import will take presidence. 
+In the case where both import are equally specific, there will be a compile error due to imports being ambiguous. 
