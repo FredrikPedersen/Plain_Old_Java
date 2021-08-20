@@ -80,6 +80,20 @@ Widening is when you are putting something small in a larger variable.
 
 The compiler is more forgiving with widening attempts, and has more constraints on narrowing. 
 
+### Casting
+
+There are times when you want to force the compiler to overlook its narrowing and widening checks, because you have
+knowledge of the actual values occurring in the program during execution. You can do this by casting.
+
+You cast by referencing the type you want to be widened, or narrowed to in parenthesis preceding the variable or value 
+that is to be converted.
+
+The problem with casting is that if your value does not fall into the valid value range, your data may underflow or overflow
+ - Underflow is defining or casting a value less than the minimum value for the datatype.
+ - Overflow is defining or casting a value greater thant the maximum value for the datatype.
+
+
+
 
 
 
