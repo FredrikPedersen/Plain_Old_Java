@@ -6,6 +6,7 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
 [2 Data Types and Strings](#2-data-types-and-strings)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Declaring Primitive Types](#declaring-primitive-types)  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Local Variable Initialization](#local-variable-initialization)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.3 Narrowing and Widening](#narrowing-and-widening)
 
 
 ## 1 Packages and Imports
@@ -71,6 +72,15 @@ To use a primitive data type variable in code, you must initialize it.
 This is not true for class static variables and instance variables which will have default values assigned to them.
 
 This initialization or lack thereof is a common theme in the exam questions.
+
+### Narrowing and Widening
+
+Narrowing is when you assign a larger primitive data literal or variable to a smaller one.
+Widening is when you are putting something small in a larger variable.
+
+The compiler is more forgiving with widening attempts, and has more constraints on narrowing. 
+
+
 
 
 
