@@ -6,7 +6,7 @@ package primitiveDataTypes;
  * @since 20/08/2021 at 12:44
  */
 
-public class Foo {
+public class Declarations {
 
     public static void main(String[] args) {
 

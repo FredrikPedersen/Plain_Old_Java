@@ -6,7 +6,7 @@ package primitiveDataTypes;
  * @since 20/08/2021 at 13:00
  */
 
-public class Foo2 {
+public class LiteralValues {
     public static void main(String[] args) {
 
         // You can set all of the numeric primitive data variables to a literal number

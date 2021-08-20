@@ -4,7 +4,8 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
 
 [1 Packages and Imports](#1-packages-and-imports)  
 [2 Data Types and Strings](#2-data-types-and-strings)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Declaring Primitive Types](#declaring-primitive-types)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Declaring Primitive Types](#declaring-primitive-types)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Local Variable Initialization](#local-variable-initialization)
 
 
 ## 1 Packages and Imports
@@ -63,6 +64,13 @@ A value containing a decimal point is assumed to be a 64-bit double.
 
 In Java, single character value in single quotes is considered a valid char literal, but any characters surrounded by double
 quotes is considered to be a string literal.
+
+### Local Variable Initialization
+
+To use a primitive data type variable in code, you must initialize it. 
+This is not true for class static variables and instance variables which will have default values assigned to them.
+
+This initialization or lack thereof is a common theme in the exam questions.
 
 
 
