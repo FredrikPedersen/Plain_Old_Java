@@ -1,4 +1,4 @@
-package garden.vegetable;
+package packagesAndImports.vegetable;
 
 /**
  * @author Fredrik Pedersen

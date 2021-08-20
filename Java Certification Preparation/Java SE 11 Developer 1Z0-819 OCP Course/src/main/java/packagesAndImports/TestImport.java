@@ -1,5 +1,5 @@
-// A single-type-import declaration
-import garden.vegetable.VineVegetable;
+package packagesAndImports;// A single-type-import declaration
+import packagesAndImports.vegetable.VineVegetable;
 
 /**
  * @author Fredrik Pedersen

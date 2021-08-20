@@ -1,3 +1,5 @@
+package packagesAndImports;
+
 /**
  * @author Fredrik Pedersen
  * @version 1.0
@@ -12,6 +14,6 @@ public class TestFQCN {
         System.out.println(message);
 
         //Any class in other packages must be qualified or imported
-        garden.vegetable.VineVegetable.main(args);
+        packagesAndImports.vegetable.VineVegetable.main(args);
     }
 }
