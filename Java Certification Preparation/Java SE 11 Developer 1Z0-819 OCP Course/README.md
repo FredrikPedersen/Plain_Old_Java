@@ -16,3 +16,32 @@ Referencing a type from another package
 
 If trying to import to classes of the same name, the most specific import will take presidence. 
 In the case where both import are equally specific, there will be a compile error due to imports being ambiguous. 
+
+## Data Types and Strings
+
+Java supports two types of data, reference data types and primitive data types.
+
+The data value of a primitive data type is stored in memory and is not a location reference to the data.
+This makes accessing primitive data types faster and leads to more efficient performance when it really matters.
+
+Because Java allows primitive data types which do not inherit from "Object" like the every other instance, Java is not 
+considered to be a 'pure' object oriented language.
+
+There are eight primitive data types in Java.
+The first five are represented in two's complement format, which is important, especially for the 4 signed primitives
+(only the char is unsigned), where the left most bit represents the sign (negative/posivite).
+
+Flot and Double are floating point representations and approximations, and will not overflow. These are used when precision
+after the decimal point is critical.
+
+| **Primitive Data Type** | **Storage in bits (width)** | **Range of Values** | Wrapper |
+| --- | --- | --- | --- |
+|byte | 8 | -128:127 | Byte |
+|char | 16 | \u0000:\uFFFF | Character |
+|short | 16 | -32768:32767 or -2^15 -> 2^15 -1 | Short |
+|int | 32 | -2^31 -> 2^31 - 1 | Integer |
+|long | 64 | -2^63 -> 2^63 - 1 | Long |
+|float | 32 | approx 3.4028235E38 | Float |
+|double | 64 | approx 1.7976931348623157E308 | Double |
+|boolean | 1 | true, false | Boolean |
+
