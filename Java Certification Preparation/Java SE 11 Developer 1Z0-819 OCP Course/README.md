@@ -4,9 +4,12 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
 
 [1 Packages and Imports](#1-packages-and-imports)  
 [2 Data Types and Strings](#2-data-types-and-strings)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Declaring Primitive Types](#declaring-primitive-types)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Local Variable Initialization](#local-variable-initialization)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2.3 Narrowing and Widening](#narrowing-and-widening)
+ - [2.1 Declaring Primitive Types](#declaring-primitive-types)  
+ - [2.2 Local Variable Initialization](#local-variable-initialization)  
+ - [2.3 Narrowing and Widening](#narrowing-and-widening)
+ - [2.4 Casting](#casting)
+ - [2.5 Scope](#scope)
+ - [2.6 Local Variable Type Inference](#local-variable-type-inference)
 
 
 ## 1 Packages and Imports
@@ -91,10 +94,72 @@ that is to be converted.
 The problem with casting is that if your value does not fall into the valid value range, your data may underflow or overflow
  - Underflow is defining or casting a value less than the minimum value for the datatype.
  - Overflow is defining or casting a value greater thant the maximum value for the datatype.
+ 
+### Scope
+
+Oracle's Java Specification states "The scope of a declaration is the region of the program within which the entity devalred by the decalration can be referred
+to using a simple name, provided it is visible".
+
+A local variable, formal parameter, exception parameter, and local class acan only be reffered to using a simple name, not a qualified name.
+Because of this, some declarations are not permitted within the scope of these elements.
+
+This can be re-stated - If you cannot qualify a variable in its current scope, you cannot create another local variable name in a more limited scope.
+
+| **Scope** | **Qualifier** |
+| --- | --- |
+| Class | {DefinedClassType} |
+| Instance | this |
+| Method | none |
+| Loop | none |
+| Loop Block | none |
+| Block Including Exception Block | none |
 
 
+### Local Variable Type Inference
+
+Local Variable Type Inference (LVTI) is also known as var declaration.  
+This is Java 10 frautre introduced to reduce the verbosity of code.  
+This feature is only available for local variables inside a method body.  
+
+**What Local Variable Type Inference is and is NOT**
+
+What it is:  
+- A shortcut to reduce verbosity of code.
+
+What it is not:  
+- A data type, the data type must be able to be inferred by the compiler when using it.
+- A keyword, you can actually use the text 'var' as an identifier.
 
 
+````Java
+public class VarDemo {
+    
+    //Non-LVTI way of instantiating object, gives a very verbose line of code in this case
+    final AClassWithAVeryLongName aClassWithAVeryLongName = new AClassWithAVeryLongName();
+    
+    //Utilizing var to shorten the amount of code
+    final var aClassWithAVeryLongName2 = new AClassWithAVeryLongName();
+}
+````
+**VALID uses of Local Variable Type Inference are for local variables only**  
 
 
+| **Statement**                       | **Explanation**                                                 |
+|-------------------------------------|-----------------------------------------------------------------|
+| var someClass = new SomeClass();    | Can be used for objects                                         |
+| var i = 1;                          | i is inferred to be an int, since it's assigned a literal int   |
+| var anArray = new int[3];           | An array can be assigned to an LVTI variable                    |
+| var methodVal = someClass.getName() | Valid to assign a method return value to an LVTI variable       |  
 
+
+**INVALID uses of Local Variable Type Inferrence**  
+
+
+| **Statement**               | **Explanation**                                               |
+|-----------------------------|---------------------------------------------------------------|
+| final var j = 0, k = 0;     | Cannot be used in compund statements                          |
+| final var m, n = 0;         | Cannot be used in compund statements                          |
+| var someObject;             | Cannot declare a var variable without also initializing it    |
+| var newVar = null;          | Cannot assign null to var, type cannot be inferred            |
+| var myArray = {"A", "B"};   | Cannot us array initializer in var declaration/initialization |
+| var[] varArray = new int[2];| Cannot have an array of var                                   |
