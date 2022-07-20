@@ -10,6 +10,9 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [2.4 Casting](#casting)
  - [2.5 Scope](#scope)
  - [2.6 Local Variable Type Inference](#local-variable-type-inference)
+ - [2.7 Strings](#strings)
+ - [2.8 String Concatenation and Manipulation](#string-concatenation-and-manipulation)
+ - [2.9 StringBuilder](#stringbuilder)
 
 
 ## 1 Packages and Imports
@@ -41,7 +44,7 @@ There are eight primitive data types in Java.
 The first five are represented in two's complement format, which is important, especially for the 4 signed primitives
 (only the char is unsigned), where the left most bit represents the sign (negative/posivite).
 
-Flot and Double are floating point representations and approximations, and will not overflow. These are used when precision
+Float and Double are floating point representations and approximations, and will not overflow. These are used when precision
 after the decimal point is critical.
 
 | **Primitive Data Type** | **Storage in bits (width)** | **Range of Values** | Wrapper |
@@ -97,7 +100,7 @@ The problem with casting is that if your value does not fall into the valid valu
  
 ### Scope
 
-Oracle's Java Specification states "The scope of a declaration is the region of the program within which the entity devalred by the decalration can be referred
+Oracle's Java Specification states "The scope of a declaration is the region of the program within which the entity declared by the declaration can be referred
 to using a simple name, provided it is visible".
 
 A local variable, formal parameter, exception parameter, and local class acan only be reffered to using a simple name, not a qualified name.
@@ -118,7 +121,7 @@ This can be re-stated - If you cannot qualify a variable in its current scope, y
 ### Local Variable Type Inference
 
 Local Variable Type Inference (LVTI) is also known as var declaration.  
-This is Java 10 frautre introduced to reduce the verbosity of code.  
+This is Java 10 feature introduced to reduce the verbosity of code.  
 This feature is only available for local variables inside a method body.  
 
 **What Local Variable Type Inference is and is NOT**
@@ -144,12 +147,12 @@ public class VarDemo {
 **VALID uses of Local Variable Type Inference are for local variables only**  
 
 
-| **Statement**                       | **Explanation**                                                 |
-|-------------------------------------|-----------------------------------------------------------------|
-| var someClass = new SomeClass();    | Can be used for objects                                         |
-| var i = 1;                          | i is inferred to be an int, since it's assigned a literal int   |
-| var anArray = new int[3];           | An array can be assigned to an LVTI variable                    |
-| var methodVal = someClass.getName() | Valid to assign a method return value to an LVTI variable       |  
+| **Statement**                       | **Explanation**                                               |
+|-------------------------------------|---------------------------------------------------------------|
+| var someClass = new SomeClass();    | Can be used for reference objects                             |
+| var i = 1;                          | i is inferred to be an int, since it's assigned a literal int |
+| var anArray = new int[3];           | An array can be assigned to an LVTI variable                  |
+| var methodVal = someClass.getName() | Valid to assign a method return value to an LVTI variable     |  
 
 
 **INVALID uses of Local Variable Type Inferrence**  
@@ -163,3 +166,112 @@ public class VarDemo {
 | var newVar = null;          | Cannot assign null to var, type cannot be inferred            |
 | var myArray = {"A", "B"};   | Cannot us array initializer in var declaration/initialization |
 | var[] varArray = new int[2];| Cannot have an array of var                                   |
+
+### Strings
+
+A String in Java is an object of class java.lang.String and represents an array or series of characters, but is NOT an
+array of the primitive data type char.  
+
+When a String is created without a constructor, aka not using new, the String is stored in a special area of the heap 
+called the String-pool, whose purpose is to maintain a set of unique Strings - this is called interning.
+
+You can manually intern, using the intern method on a String object.  
+
+When you assign two variables to the same String literal, these string are considered equal and the comparator == evaluates to true.
+
+````Java
+public class StringDemo {
+    //String literals automatically interned so all "hello" literals point to the same reference in memory, in the string pool 
+    final String s1 = "Hello";
+    final String s2 = "Hello";
+    
+    //Non-literal Strings do not point to the same reference, and are not stored in the String pool
+    final String s3 = new String("Hello");
+    final String s4 = new String("Hello");
+    
+    //Using the intern-method checks the String pool for "Hello" and returns the String pool reference to s1
+    final String s5 = new String("Hello").intern();
+    final String s6 = new String("Hello").intern();
+    
+    public static void main(final String[] args) {
+        System.out.println(s1 == s2); //True
+        System.out.println(s3 == s4); //False
+        System.out.println(s5 == s6); //True
+    }
+}
+````
+
+Strings in Java are immutable, meaning that once you crate a String literal, e.g. "Hello", that String remains "Hello"
+on the String-pool with a single reference to it.
+If you do a String concatenation, you are not changing the current String, but creating a new String object with the
+concatenated Strings.
+
+````Java
+public class ImmutableString {
+
+    public static void main(final String[] args) {
+        //Hello is added to the String-pool, s1 gets a reference to it
+        String s1 = "Hello";
+        
+        /*
+        This does not change "Hello" in the String-pool, it merely adds a new String "Hello World" to the String pool
+        and passes the reference to s1. 
+        */
+        s1 = s1 + " World";
+    }
+}
+````
+
+### String Concatenation and Manipulation
+
+The concatenation operator for Strings in java is the "+"-operator.
+
+When you concatenate a string to a reference variable, if the variable is a reference type, the toString() method on the
+object is called. If the variable is a primitive data type, the variable is boxed to a wrapper and its toString() method is called.
+
+NOTE: Skipping a lot of chapters regarding Strings due to most of it being very basic stuff I use every day.
+
+### StringBuilder
+
+Remember: Strings are immutable, StringBuilder objects are not.  
+
+String should always be used unless StringBuilders offer an advantage in terms of simpler code or better performance.  
+
+For example, if you need to concatenate a large number of Strings, such as a temporary error message, or dynamic XML,
+then appending to a StringBuilder object is more efficient.  
+
+Every StringBuilder has a capacity of which is the number of character spaces allotted to it, 
+capacity is automatically extended as additions are made to the StringBuilder object.  
+
+When creating StringBuilder objects, you have the following options:
+
+| Constructor    | Description | Capacity |
+|-----------|-------------|-------------|
+| StringBuilder() | Empty StringBuilder object with capacity of 16 empty elements | 16 |
+| StringBuilder(CharSequence cs) | StringBuilder object with same characters as the specified CharSequence, plus an extra 16 empty trailing elements | cs.length() + 16 |
+| StringBuilder(int initCapacity) | Empty StringBuilder object with specified initial capacity | initCapacity |
+| StringBuilder(String s) | StringBuilder object with same characters as the specified String, plus an extra 16 empty trailing elements | s.length() + 16 |
+
+When manipulating StringBuilder objects we use the append() and insert()-methods, where append adds the passed in parameter value at the end of the resulting String, and
+insert takes in an offset argument to place the passed in value at the given index.
+
+````Java
+public void stringBuilding() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("There");
+    sb.insert(0, "Hello "); //"Hello There"
+}
+````
+
+StringBuilder can also be used to delete data from a String, using the delete()-method.
+Delete takes in two arguments, the start and end indices of the delete-operation.
+
+You also have the deleteCharAt()-method which removes the character at the given index.
+
+````Java
+public void stringDeleting() {
+    final StringBuilder sb = new StringBuilder("Hello There");
+    sb.delete(0, 6); //"There"
+    sb.deleteCharAt(0); //"here"
+}
+````
