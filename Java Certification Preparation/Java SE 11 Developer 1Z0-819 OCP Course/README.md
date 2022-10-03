@@ -14,6 +14,9 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [2.8 String Concatenation and Manipulation](#string-concatenation-and-manipulation)
  - [2.9 StringBuilder](#stringbuilder)
 [3 Operators and Decision Constructs](#3-operators-and-decision-constructs)
+ - [3.1 Pre- and Postfix Increment and Decrement Operators](#pre--and-postfix-increment-and-decrement-operators)
+ - [3.2 Unary Plus and Minus](#unary-plus-and-minus)
+ - [3.3 Bitwise Complement Operator](#bitwise-complement-operator)
 
 
 
@@ -298,3 +301,73 @@ When utilising operators, it is important to know:
 | ! | Logical Complement Operator | !a          | Returns a complement of a boolean value                                           |                                                                                      |
 | ~ | Bitwise Complement Operator | ~a          | Bitwise complement, turns a 1 to 0, or a 0 to a 1. In all cases, ~x equals (-x)-1 |                                                                                      |
 |  | Cast Operator               | (int)a      |                                                                                   |                                                                                      |
+
+### Pre- and Postfix Increment and Decrement Operators
+
+It is very important to remember that the postfix operators do not change the value of is unary operand until the expression it is operating in is consideres completed
+OR the operand is used again the same statement.
+
+The unary variable being operated on does get operated on (the value at the end is changed), but any assignments or expresions 
+this statement is part of will be using the unchanged value until the expression statement is evaluated successfully.
+
+If the statement is interrupted somehow, then the postfix may not actually be applied. It needs to be noted that the operators are
+changing the value contained in the reference itself, meaning if you make the statement a++, you are incrementing the value in the variable a.
+These operands can be standalone statements. This is different, for example, from the unary minus (-a), which has no impact on the value
+in the operand itself, and cannot be a statement of its own and must have it's output assigned or used in an expression.
+
+````Java
+public class PrePostFixing {
+
+    //The postfix does not do any work on a before the method it is called in is done executing, hence the behaviour in the second print
+    public void prePostFixing() {
+        int a = 1;
+        System.out.println("a after ++a = " + ++a); //2
+
+        a = 1;
+        System.out.println("a after a++ = " + a++); //1
+        System.out.println("And now the value of a is:"a); //2
+    }
+
+    public void prePostFixingV2() {
+        int a = 1;
+        int a2 = a++;
+        System.out.println("The value of a is " + a); //2
+        System.out.println("The value of a2 is " + a2); //1
+    }
+
+    public void prePostFixingInLoopsPrefix() {
+        int a = 5;
+        int loopIterations = 0;
+
+        while (--a > 0) {
+            loopIterations++;
+        }
+
+        //loopIterations = 4, a = 0
+        System.out.println("Prefix decrement, loopIterations = " + loopIterations + ", a = " + a);
+    }
+
+    public void prePostFixingInLoopsPostfix() {
+        int a = 5;
+        int loopIterations = 0;
+
+        while (a++ > 0) {
+            loopIterations++;
+        }
+
+        //loopIterations = 5, a = -1
+        System.out.println("Prefix decrement, loopIterations = " + loopIterations + ", a = " + a);
+    }
+}
+````
+
+### Unary Plus and Minus
+
+Refer to the table in [3 Operators and Decision Constructs](#3-operators-and-decision-constructs)
+
+### Bitwise Complement Operator
+
+ The bitwise complement operator flips the bit for the entire value of for the entire value of the variable.
+
+UDEMY FUCKING CRASHED, GUESS WE ARE DONE FOR TODAY
+ 
