@@ -13,6 +13,8 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [2.7 Strings](#strings)
  - [2.8 String Concatenation and Manipulation](#string-concatenation-and-manipulation)
  - [2.9 StringBuilder](#stringbuilder)
+[3 Operators and Decision Constructs](#3-operators-and-decision-constructs)
+
 
 
 ## 1 Packages and Imports
@@ -275,3 +277,24 @@ public void stringDeleting() {
     sb.deleteCharAt(0); //"here"
 }
 ````
+
+## 3 Operators and Decision Constructs
+
+Java operators are symbols that are used to perform mathematical or logical manipulations and have two types of classifications.
+The first classification is based on the number of operans the operator has (unary, binary, ternary), and the second classification is the type of operation it performs.
+
+When utilising operators, it is important to know:
+ - Precedence of an operator (unary operators are evaluated before binary operators).
+ - Among the unary operators, the postfix increment and decrement have the highest precedence.
+ - Unary operators except the prefix/postfix operators promote the variable to an int if it is smaller than an int.
+ - If all operators have the same precedence, the expression will be evaluated from the left to right, except the simple and compound assignment operators which are evaluated right to left.
+
+| Symbol | Name                        | Examples    | Description                                                                       | Notes                                                                                |
+|------|-----------------------------|-------------|-----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| --   | Pre- and Postfix decrement  | --a<br/>a-- | Decrements value of a before or after expression is evalutated                    | It is possible that a variable will go out of scope before the post decrement can occur |
+| ++   | Pre- and Postfix Increment  | ++a<br/>a++ | Increments value of a before or after expression is evalutated                    | It is possible that a variable will go out of scope before the post increment can occur |
+| -    | Unary Minus                 | -a          | Returns negated value of a whithout changing the value of a                       | If a is a data type with size less than an int, a will get promoted to an int        |
+| +    | Unary Plus                  | +a          | Does nothing to the value of a, but is allowed                                    | If a is a data type with size less than an int, a will get promoted to an int                                                                                       |
+| ! | Logical Complement Operator | !a          | Returns a complement of a boolean value                                           |                                                                                      |
+| ~ | Bitwise Complement Operator | ~a          | Bitwise complement, turns a 1 to 0, or a 0 to a 1. In all cases, ~x equals (-x)-1 |                                                                                      |
+|  | Cast Operator               | (int)a      |                                                                                   |                                                                                      |
