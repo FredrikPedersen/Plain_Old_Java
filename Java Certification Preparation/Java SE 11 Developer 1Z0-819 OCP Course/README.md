@@ -17,6 +17,8 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [3.1 Pre- and Postfix Increment and Decrement Operators](#pre--and-postfix-increment-and-decrement-operators)
  - [3.2 Unary Plus and Minus](#unary-plus-and-minus)
  - [3.3 Bitwise Complement Operator](#bitwise-complement-operator)
+ - [3.4 Binary Operators Overview](#binary-operators-overview)
+ - [3.5 If-Else Decision Construct](#if-else-decision-construct)
 
 
 
@@ -329,8 +331,8 @@ public class PrePostFixing {
     }
 
     public void prePostFixingV2() {
-        int a = 1;
-        int a2 = a++;
+        final int a = 1;
+        final int a2 = a++;
         System.out.println("The value of a is " + a); //2
         System.out.println("The value of a2 is " + a2); //1
     }
@@ -367,7 +369,66 @@ Refer to the table in [3 Operators and Decision Constructs](#3-operators-and-dec
 
 ### Bitwise Complement Operator
 
- The bitwise complement operator flips the bit for the entire value of for the entire value of the variable.
+The bitwise complement operator flips the bit for the entire value of for the entire value of the variable.
+The binary literal value of the integer 0, gets every bit flipped to 1, making it's integer value -1.
 
-UDEMY FUCKING CRASHED, GUESS WE ARE DONE FOR TODAY
- 
+The logical complement operator only operates on a boolean, and changes false to not false (true).
+
+### Binary Operators Overview
+
+With the exception of the conditional (or the ternary) operator, the remaining operators in Java are binary.
+In the following table they are grouped by the type of operation they perform, and listed by their precedence level.
+
+| Category                      | Symbol                                     | Simple Description                                                          | Notes                                                                                                                                                                                  |
+|-------------------------------|--------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Multiplicative Operators      | *<br/>/<br/>%                              | Multiplication<br/>Division<br/>Modulus                                     | Precedence equal among them, group left-to-right                                                                                                                                       |
+| Additive Operators            | +<br/>-                                    | Addition<br/>Subtraction                                                    | Precedence equal among them, group left-to-right                                                                                                                                       |
+| Shift Operators               | <<</br>>></br>>>>                          | Left Shift<br/>Signed Right Shift<br/>Unsigned Right Shift                  | The left-hand operand of a shift-operator is the value to be shifted; the right-hand operand specifies the shift distance. <br/><br/> Precedence equal among them, group left-to-right |
+| Relational Operators          | <<br/><=<br/>><br/>>=                      | Less than<br/>Lest than or equal<br/>Greater than<br/>Greater than or equal | Precedence equal among them, group left-to-rigth                                                                                                                                       | 
+| Equality Operators            | ==<br/>!=                                  | Equals<br/>Not Equals                                                       |                                                                                                                                                                                        |
+| Bitwise and Logical Operators | &<br/>^</br> (pipe)                        | AND<br/>XOR<br/>OR                                                          | These operators have differenc precedence, with & having the highest precendence and (pipe) the lowest.                                                                                |
+| Conditional AND Operator      | &&                                         |                                                                             | The conditional AND operator is like &, but evaluates its right-hand operand only if the value of its left-hand operand is true                                                        |
+| Condotional OR Operator       | (pipe)(pipe)                               |                                                                             | The conditional OR operator is like (pipe), but evaluates its right-hand operand only if the value of its left-hand operand is false                                                   |
+| Conditional Operator          | ?:                                         |                                                                             |                                                                                                                                                                                        | 
+| Assignment Operators          | =<br/>*= /= += -= <<=<br/> >>= >>>= &= ^=  | Simple assignment<br/> Compound Assignment                                  |                                                                                                                                                                                        |
+| Lambda Operator               | ->                                         |                                                                             |                                                                                                                                                                                        |
+
+Note that for a unary operator, the is not the pre- or post decrement/increment operator, if the type of the operand is smaller than an int, the operand will automatically be promoted to an int.
+
+For a binary operator, both operand are promoted to int, if they are smaller than an int, but if any of the operands are larger than an int, then it is promoted to the larger type. Not that this is NOT true for the compound assignment operators.
+
+What this means is that any operations on numeric values will never result in a value that is smaller than an int.
+
+````Java
+public class BinaryOperatorsExamples {
+    
+    public void precedenceInArithmetic() {
+        final int a = 1;
+        final int b = 2;
+        final int c = 3;
+        final int d = 4;
+        final int e = 5;
+        final int f = 6;
+        
+        //Follows standard mathematical rules for precedence in arithmetic
+        //Could also be written a + (e * b) - (f / c) % b;
+        final int result = a + e * b - f / c % b; //11
+    }
+    
+    public void shiftOperators() {
+        final String leftShift = Integer.toBinaryString(0b00000001 << 2); //0b00000100
+        final String rightShift = Integer.toBinaryString(0b10001000 >> 3); //0b00010001
+        final String unsignedRightShift = Integer.toBinaryString(0b10000010_00000010_00000010_00000001 >>> 1); //1000001000000010000000100000000
+    }
+    
+    //Bah, won't bother adding all the examples from the course, most of this is pretty rudimentary. 
+    //Add some examples of your own if there happens to be some mind-bending cases popping up in the trial exams
+}
+````
+
+### If-Else Decision Construct
+
+The if-statement allows conditional execution of a statement, a block of statements, or a choice of two statements or statement blocks.
+
+
+
