@@ -12,7 +12,8 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [2.6 Local Variable Type Inference](#local-variable-type-inference)
  - [2.7 Strings](#strings)
  - [2.8 String Concatenation and Manipulation](#string-concatenation-and-manipulation)
- - [2.9 StringBuilder](#stringbuilder)
+ - [2.9 StringBuilder](#stringbuilder)  
+
 [3 Operators and Decision Constructs](#3-operators-and-decision-constructs)
  - [3.1 Pre- and Postfix Increment and Decrement Operators](#pre--and-postfix-increment-and-decrement-operators)
  - [3.2 Unary Plus and Minus](#unary-plus-and-minus)
