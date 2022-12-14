@@ -23,6 +23,9 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [3.6 Switch Decision Construct](#switch-decision-construct)
  - [3.7 Loop Structures](#loop-structures)
 
+[4 Arrays](#4-arrays)
+ - [4.1 Array Declaration and Initialization](#array-declaration-and-initialization)
+
 
 
 ## 1 Packages and Imports
@@ -517,3 +520,13 @@ An outer loop cannot reference the inner loop's labels, but an inner loop can re
 You can break out of a nested loop from a nested loop.  
 You can also completely break out of the parent loop from the nested loop.  
 
+## 4 Arrays
+
+An array can be one dimensional, two dimensional or multi-dimensional representing a matrix of data.  
+Note that "true support" of multi-dimensional arrays is not supported, but Java offers an array of arrays to support a
+multi-dimensional structure.  
+
+You can store a subclass object in an array, declare dto be the type of the superclass or interface, supporting polymorphism.  
+
+
+### Array Declaration and Initialization
