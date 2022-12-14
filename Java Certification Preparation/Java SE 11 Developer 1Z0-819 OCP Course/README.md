@@ -20,6 +20,8 @@ Notes taken from [Tim Buchalka's Java SE 11 Developer Exam course](https://tieto
  - [3.3 Bitwise Complement Operator](#bitwise-complement-operator)
  - [3.4 Binary Operators Overview](#binary-operators-overview)
  - [3.5 If-Else Decision Construct](#if-else-decision-construct)
+ - [3.6 Switch Decision Construct](#switch-decision-construct)
+ - [3.7 Loop Structures](#loop-structures)
 
 
 
@@ -470,5 +472,48 @@ public class IfElseExamples {
 
 A switch statement can only work with byte, short, char and int primitive data types.  
 It also works with enumerated types, the String class and the aforementioned primitive wrapper classes.  
-The default case label only matches an argument if all the other labels do not, regardless of its position.  
+The default case label only matches an argument if all the other labels do not, regardless of its position.
+
+### Loop Structures
+
+Java supports three types of loops, the while loop, the do-while loop and the for loop.  
+
+The while loop exexutes one or more statements after testing the loop continuation expression at the start of each iteration. 
+The do-while loop however tests the loop continuation expression after the first iteration has completed.
+````Java
+while (expression) {
+    statements
+}
+
+do {
+    statements
+} while (expression)
+````
+
+The traditional for loop has built-in mechanisms to control the initialization, and updating of the loop variable, as well as the comparison condition (termination section).  
+When using this version of the for statement, keep in mind:
+ - The initialization expression initialixzes the loop; it is executed once as the loop begins. This expression is optional.
+ - When the termination expression evaluates to false, the loop terminates. The termination expression is optional, and the default value is true.
+ - The increment expression is invoked after each iteration through the loop; it is perfectly acceptable for this expression to increment or decrement a value. The increment expression is optional.
+
+````Java
+for (initialization; termination; increment) {
+    statements    
+}
+````
+
+The enhanced for loop is used to loop through an Iterable set of data and do something.  
+The type of the Expression must be Iterable, or an Array-type.
+````Java
+for (FormalParameter: Expression) {
+    statements    
+}
+````
+
+### For Loop - Out of the Ordinary Concepts
+
+You cannot reference a label with the continue and break states that is not in the loop scope, a compiler error occurs.  
+An outer loop cannot reference the inner loop's labels, but an inner loop can reference the outer loop's labels.  
+You can break out of a nested loop from a nested loop.  
+You can also completely break out of the parent loop from the nested loop.  
 
