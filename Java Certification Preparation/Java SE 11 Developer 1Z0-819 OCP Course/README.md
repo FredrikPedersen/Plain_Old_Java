@@ -431,5 +431,44 @@ public class BinaryOperatorsExamples {
 
 The if-statement allows conditional execution of a statement, a block of statements, or a choice of two statements or statement blocks.
 
+If you do not have a bracket after the if or else, then only one line of code is contained within the conditional block.
+You can have an empty statement block after the if or else as long as semicolon follows.
+Dangling elses are assumed to go with the innermost if statement
 
+````Java
+public class IfElseExamples {
+    final boolean flag = false;
+    boolean subFlag = true;
+    
+    public void danglingElse() {
+        if (flag); //Empty statement is valid, need the semicolon
+        else System.out.println("1. flag is false");
+        
+        if (flag)
+            if (subFlag) System.out.println("2. subflag is true");
+            else 
+                System.out.println("2. subflag is false"); //Dangling else
+        else System.out.println("2. flag is false");
+    }
+    
+    //Typical exam question where the formatting is wrong in order to mislead
+    public void formattedToMislead() {
+        if (flag)
+            if (subFlag) System.out.println("1. subflag is true");
+        else System.out.println("1. flag is false"); //Dangling else
+        
+        subFlag = false;
+        if (flag)
+            if (subFlag) System.out.println("2. subflag is true");
+        else System.out.println("2. subflag is false");
+        else System.out.println("2. flag is false");
+    }
+}
+````
+
+### Switch Decision Construct
+
+A switch statement can only work with byte, short, char and int primitive data types.  
+It also works with enumerated types, the String class and the aforementioned primitive wrapper classes.  
+The default case label only matches an argument if all the other labels do not, regardless of its position.  
 
