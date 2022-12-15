@@ -530,3 +530,96 @@ You can store a subclass object in an array, declare dto be the type of the supe
 
 
 ### Array Declaration and Initialization
+
+**Valid declarations**
+
+| Declaration      | Notes                                                                                                                                                     |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| int[] array;     | Brackets can be associated to the type, indicating that variable is an array                                                                              |
+| short array[];   | Brackets can be associtated to the variable name, indicating that the variable is an array                                                                |
+| int a, b[], c;   | You can define multiple variable of a type on one line, including arrays of that type.                                                                    |
+| int[] d, e, f[]; | You can define multiple array values in a single declaration variable. Note that variable f in this statement is a declaration of a two dimensional array |
+| int[] array[];   | This is valid, but might be unintended, as it declares a two dimensional array                                                                            | 
+
+**Invalid declarations**
+
+| Declaration       | Notes                                                                     |
+|-------------------|---------------------------------------------------------------------------|
+| int[2] array;     | Size is not part of the declaration                                       |
+| int array[2];     | Size is not part of the declaration                                       |
+| int a, float b[]; | You can NOT define multiple variables of different types on the same line |
+
+**Initializing Arrays**
+
+You must define the size of the array in brackets.  
+Once a size is defined, you cannot change the size of an array.  
+When you create an array this way, the JVM automatically assigns defaults:
+ - Numeric primitives are set to 0
+ - Boolean primitives are set to false
+ - References, including primitive data type wrappers, are set to null
+
+````Java
+int[] array = new int[10]; //creates an array of int with 10 elements initialized to 0
+String[] array = new String[10]; //creates an array of String with 10 elements initialized to null
+````
+
+There are also array initializers, which are shortcuts allowing you to create and initialize each element in an array in one statement.  
+These can only be used in the same statement as the declaration.
+
+````Java
+final int[] array = {1, 2, 3 ,4, 5};
+final String[] array = {"one", "two", null, "three"};
+````
+
+### Manipulating Arrays
+
+Arrays are a useful data structure, but comes with limited methods for manipulating the data.  
+Hence, manipulating arrays usually includes utilizing the java.util.Arrays class.  
+
+The Javadoc definition of the java.util.Arrays class is:  
+"The class contains various methods for manipulating arrays (such as sorting and searching). This class also contains a static factory that allows arrays to be viewed as lists"  
+
+| Type of Functionality | Array Class Methods                                                                                                                                                        | List Interface Methods                                                                                                                    |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Comparison            | compare (Java 9)<br/>compareUnsigned (Java 9) <br/> deepEquals <br/> equals                                                                                                | equals <br/> isEmpty                                                                                                                      |
+| Searches              | binarySearch <br/> mismatch (Java 9)                                                                                                                                       | contains <br/> containsAll <br/> indexOf <br/> lastIndexOf                                                                                | 
+| Data Manipulation     | deepHashCode <br/>deepToString <br/> fill <br/> hashCode <br/> parallelPrefix (Java 8) <br/> parallelSort (Java 8) <br/> parallelSetAll (Java 8) <br/> sort <br/> toString | add <br/> addAll <br/>clear <br/>get <br/>hashCode <br/>remove <br/>removeAll <br/>replaceAll<br/> retainAll <br/>set <br/>size <br/>sort |
+| Data Transformation   | asList <br/> copyOf <br/> copyOfRange <br/> spliterator (Java 8) <br/> stream (Java 8)                                                                                     | copyOf (Java 10) <br/> iterator <br/> listIterator <br/> of (Java 9) <br/> spliterator (Java 8) <br/> subList <br/> toArray               |
+
+### Comparing Arrays
+
+To understand the compare method, we need to understand what an array prefix is.  
+ - A prefix is the set of elements in common, starting at the element on index 0.
+ - Alternatively, an index we define, this will come up later.
+ - If we compare two String arrays that have the exact same elements, the prefix is the entire set of elements.
+ - If we compare the arrays in the below example, the prefix is the entire partialArray, since all elements in partialArray exists in the defaultArray, starting at offset index 0, and in the same order.
+ - If we compare the defaultArray with unsortedArray, there is no prefix as there is no common set of elements starting at offset index 0.
+
+````Java
+final String[] defaultArray = {"a", "b", "c", "d", "e"};
+final String[] partialArray = {"a", "b", "c"};
+final String[] unsortedArray = {"d", "a", "e", "b", "c"};
+````
+
+The Arrays.compare method then follows these rules: 
+ - If Arrays.equals is true, return 0.
+ - If first array passed to parameter is null, return -1, else if second array is null, return 1.
+ - If length of first array is 0, return (0 - length of second array).
+ - If length of second array is 0, return (length of first array - 0).
+ - If one array represents the entire prefix of another, the difference in lengths of the arrays is returned.
+   - This number will be negative if you are comparing the smaller array to a larger array.
+ - If no prefix is identified, then the first element of each array is compared, lexicographically.
+   - This number will be negative if the first element of the first array is less than the first element of the second array.
+ - If a prefix is identified, but neither arrays represents a full subset of the other, the index where the prefix stops is used to then compare the elements at that index.
+
+| Array a      | Array b      | Arrays.compare(a, b)   | Notes                                                             |
+|--------------|--------------|------------------------|-------------------------------------------------------------------|
+| {e1, e2}     | {e1, e2}     | 0                      | Arrays are equal                                                  |
+| null         | {e1, e2}     | -1                     | Note that this is a different result than empty array             |
+| {e1, e2}     | null         | 1                      | Note that this is a different result than empty array             |
+| {}           | {e1, e2}     | a.length - b.length    | a.length == 0                                                     |
+| {e1, e2}     | {}           | a.length - b.length    | b.length == 0                                                     |
+| {e1, e2}     | {e1, e2, e3} | a.length - b.length    | prefix is {e1, e2} which is complete set of one of the arrays     |
+| {e1, e2}     | {e3, e4}     | a[0].compareTo(b[0])   | no prefix identified                                              |
+| {e1, e2, e3} | {e1, e2, e4} | a[2].compareTo(b[2])   | prefix is {e1, e2} but this is not a complete set of either array |
+
