@@ -623,3 +623,42 @@ The Arrays.compare method then follows these rules:
 | {e1, e2}     | {e3, e4}     | a[0].compareTo(b[0])   | no prefix identified                                              |
 | {e1, e2, e3} | {e1, e2, e4} | a[2].compareTo(b[2])   | prefix is {e1, e2} but this is not a complete set of either array |
 
+### Array Search Methods
+
+The **binarySearch** method searches for a matching element and returns an integer indicating the array index where there is a match.  
+If no match is found, the method returns a -1.  
+When using a **binarySearch**, your array needs to be sorted - you can perform a binary search on a non-sorted array but the results cannot be relied upon.  
+If your array contains duplicate values, there is no guarantee which index of the duplicate elements will be returned.
+
+Remember to sort you array before using this method.
+If you want the first match in an array which might have duplicates, use List.indexOf method instead.
+
+Other useful search methods:  
+ - List.containsAll(Collection<?> c)
+   - Returns true if the Collection passed to the method contains all the elements of the list the method is invoked upon.  
+ - List.indexOf(Object o)
+   - Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element.
+ - List.lastIndexOf(Object o)
+   - Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not contain the element.
+
+
+````Java
+final int[] array = {1, 2, 3, 4, 5};
+final int[] duplicatesUnsorted = {4, 3, 5, 1, 2};
+final int[] partialCopy = {1, 2, 3};
+
+//Search for 3, which is in the array
+Arrays.binarySearch(array, 3); //2, which is the index
+
+// Search for 6, which is not in the array
+Arrays.binarySearch(array, 8); //-6 ??
+
+//Search for 4, which is duplicated in the array
+Arrays.binarySearch(duplicatesUnsorted, 4); //0, which is the index of the first 4
+
+//Search for 1 on unsorted array
+Arrays.binarySearch(duplicatesUnsorted, 1); //-1, not found due to being unsorted
+        
+//Mismatch returns the non-matching index where the prefix ends
+Arrays.mismatch(array, partialCopy); //3
+````
