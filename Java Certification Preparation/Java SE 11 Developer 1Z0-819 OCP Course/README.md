@@ -662,3 +662,58 @@ Arrays.binarySearch(duplicatesUnsorted, 1); //-1, not found due to being unsorte
 //Mismatch returns the non-matching index where the prefix ends
 Arrays.mismatch(array, partialCopy); //3
 ````
+
+### Array Data Manipulation
+
+The methods which will be covered for data manipulation are 
+ - fill()
+ - setAll()
+ - sort()
+ - parallelPrefix()
+
+parallelSetAll() and parallelSort() will not be covered as these are operationally the same as setAll() and sort(), but the parallel versions allows multiple threads to do the work and are thus better suited for large sets of data.  
+Since there is no corresponding method to parallelPrefix(), that will be covered here.  
+
+````Java
+//Array with five null values
+final Integer[] array = new Integer[5]; 
+
+//Fills the array with integers with the value 5
+Arrays.fill(array, 5);  [5, 5, 5, 5, 5]
+
+//Fills the array with the partialFilLValue from index 2 to 5
+final int partialFillValue = 9;
+Arrays.fill(array, 2, 5, partialFillValue); //[5, 5, 9, 9, 9]
+
+//Set each value equal to it's index + 1
+Arrays.setAll(array, (index) -> index + 1); //[1, 2, 3, 4, 5]
+
+//Example of reverse sorting
+Arrays.sort(array, Collections.reverseOrder()); //[5, 4, 3, 2, 1]
+
+//Similar to setAll and parallelSetAll, except this method supports binary operations
+Arrays.parallelPrefix(array, (left, right) -> left + right); //[5, 9, 12, 14, 15]
+````
+
+You can do practically anything you want to do with an array using the methods on the Arrays Class, with the exception of changing the size of the array itself.  
+
+Next up is manipulating the array using a fixed-size list, backed by the specific array, by calling the Arrays.asList method.  
+This technique allows you to use some methods of the List interface, which do not change the size of the array.
+
+````Java
+final String[] primaryColours = {"red", "blue", "yellow"};
+final List<String> colourList = Arrays.asList(primaryColours);
+
+//Samples of list methods
+final String firstColour = colourList.get(0); //red
+colourList.sort(String.CASE_INSENSITIVE_ORDER); //[blue, red, yellow], also sorts primaryColours
+colourList.set(0, "cyan"); //Also modifies index 0 in primaryColours
+colourList.replaceAll((s) -> s + "ish"); [cyanish, redish, yellowish], also modifies primaryColours
+
+//Modifying the underlying array also subsequently changes the List depending on it
+primaryColours[0] = "blueish"; //both List and Array now has blueish on index 0
+````
+
+One also has the List.of and List.copyOf methods, both which returns an immutable list.
+ - Lists created using these methods will not be dependent on the source Array or Collection used to create the List.
+
